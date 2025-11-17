@@ -194,7 +194,7 @@ int LinuxSerialDevice::_checkBaudRate(uint8_t (&buf)[BUFFER_SIZE])
 }
 
 bool LinuxSerialDevice::_serialOpen(const char* dev) {
-#ifdef __arm__  
+#if defined(__arm__) || defined(__aarch64__)
   m_serial_fd = open(dev, O_RDWR | O_NONBLOCK );
 #elif __x86_64__
    m_serial_fd = open(dev, O_RDWR | O_NOCTTY );
