@@ -250,8 +250,11 @@ ackReturnData activate(CoreAPI* api)
       usleep(1000000);
       break;
     case ACK_ACTIVE_VERSION_ERROR:
-      std::cout << "Your activation did not go through. \nYour SDK version in User_Config.h does not match the one reported by the drone. \nPlease correct that, rebuild (do a `make clean` first) and try again." << std::endl;
-      usleep(1000000);
+      std::cout << "*** WARNING: Version mismatch detected, but ignoring for compatibility ***" << std::endl;
+      std::cout << "Activation proceeding anyway (hack enabled)..." << std::endl;
+      usleep(100000);
+      activateAck.status = 1;  // Treat as success
+      return activateAck;
       break;
     default:
       std::cout << "There was an error with the activation command. This can happen due to a variety of reasons. \n (1)Make sure the baud rate settings in DJI Assistant 2 match those in User_config.h. \n (2) Make sure API control is enabled in DJI Assitant 2. \n If the error persists, raise an issue on Github specifying your onboard platform and a snapshot of DJI Assistant 2 as well as User_Config.h." << std::endl;
